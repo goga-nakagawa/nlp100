@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-def concat(x, y, z):
-    return unicode(x) + u"時の" + unicode(y) + u"は" + unicode(z)
+def cipher(s):
+    return "".join([chr(219 - ord(c)) if ord(c) in xrange(97, 123) else c for c in s])
 
-print concat(12, u"気温", 22.4)
+print cipher("Atbash is a simple substitution cipher for the Hebrew alphabet.")
