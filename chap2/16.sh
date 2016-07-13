@@ -1,0 +1,1 @@
+split -l 8 hightemp.txt 
