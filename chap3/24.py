@@ -2,10 +2,11 @@
 # -*- coding: utf-8 -*-
 import re
 
-pattern = r"^\[\[Category:(.*?)\]\]$"
+pattern = r"^\[\[(File:|ファイル:)(.*?)\|.*?\]\]$"
 compiled = re.compile(pattern)
 
 with open("england.txt") as f:
     for line in f.readlines():
-        if compiled.search(line):
-            print line
+        l = compiled.search(line)
+        if l:
+            print l.group(2)
