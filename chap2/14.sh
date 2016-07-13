@@ -1,0 +1,1 @@
+head -10 hightemp.txt
