@@ -9,4 +9,4 @@ with open('neko.txt.mecab') as f:
         matched = compiled.split(line)
         if matched and len(matched) == 10:
             if matched[1] == "動詞":
-                print matched[0].decode('utf-8')
+                print matched[7].decode('utf-8')
