@@ -2,11 +2,9 @@
 # -*- coding: utf-8 -*-
 
 def tabbed_str_to_dict(tabbed_str):
-    elements = tabbed_str.split()
-    if 0 < len(elements) < 4:
-        return {"surface": elements[0], "base": "", "pos": "", "pos1": ""}
-    else:
-        return {"surface": elements[0], "base": elements[1], "pos": elements[2], "pos1": elements[3]}
+    elements = [ x.strip('') for x in tabbed_str.split(',')]
+    if len(elements) == 9:
+        return {"surface": elements[0], "base": elements[7], "pos": elements[1], "pos1": elements[2], "pos2": elements[3]}
 
 def morphemes_to_sentence(morphemes):
     sentences = []
@@ -14,10 +12,9 @@ def morphemes_to_sentence(morphemes):
 
     for morpheme in morphemes:
         sentence.append(morpheme)
-        if morpheme["pos1"] == "記号-句点":
+        if morpheme and morpheme.get("pos2") == "句点":
             sentences.append(sentence)
             sentence = []
-
     return sentences
 
 

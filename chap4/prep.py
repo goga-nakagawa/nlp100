@@ -8,7 +8,7 @@ from matplotlib.font_manager import FontProperties
 
 
 def make_analyzed_file(input_file_name, output_file_name):
-    _m = MeCab.Tagger("-Ochasen")
+    _m = MeCab.Tagger()
     with open(input_file_name, "rb") as input_file:
         with open(output_file_name, "wb") as output_file:
             output_file.write(_m.parse(input_file.read()))
