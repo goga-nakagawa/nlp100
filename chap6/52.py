@@ -1,8 +1,18 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import re
+from nltk import stem
+
 ls = re.compile(r"^\n")
 st = re.compile(r"(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s")
+
+class Stemmer:
+    def __init__(self, stemmer=None):
+        self.stemmer = stem.PorterStemmer()
+
+    def stem(self, word):
+        return self.stemmer.stem(word.lower())
+
 
 with open("nlp.txt") as f:
     for l in f.readlines():
@@ -12,10 +22,12 @@ with open("nlp.txt") as f:
             sentences = st.split(l)
             for s in sentences:
                 for w in s.split():
+                    stemmer = Stemmer()
                     if w[-1] == ".":
-                        print w.replace(".", "").lower()
+                        print stemmer.stem(w.replace(".", ""))
                         print ""
                     elif w[-1] == ",":
-                        print w.replace(",", "").lower()
+                        print stemmer.stem(w.replace(",", ""))
                     else:
-                        print w.lower()
+                        print stemmer.stem(w)
+
