@@ -20,8 +20,8 @@ class Morph:
 class Chunk:
     def __init__(self, dst=None, srcs=None):
         self.morphs = []
-        self.dst = int(dst.strip("D"))
-        self.srcs = int(srcs)
+        self.dst = dst
+        self.srcs = srcs
 
     def __str__(self):
         return "dst: %s, srcs: %s" % (self.dst, self.srcs)
@@ -47,8 +47,8 @@ with open('neko.txt.cabocha') as f:
         elif astrisked:
             kakari = line.split()
             chunk = Chunk(
-                        dst=kakari[2],
-                        srcs=kakari[1]
+                        dst=int(kakari[2].strip("D")),
+                        srcs=int(kakari[1])
                 )
             sentence.append(chunk)
         elif parsed and len(parsed) == 10:
