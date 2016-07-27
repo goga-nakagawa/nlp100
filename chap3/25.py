@@ -2,13 +2,23 @@
 # -*- coding: utf-8 -*-
 import re
 
-pattern = r"^\|\s?(.*?)\s=\s(.*)"
-compiled = re.compile(pattern)
+start = re.compile(r"^\{\{基礎情報")
+end = re.compile(r"\}\}$")
+pattern = re.compile(r"^\|\s?(.*?)\s=\s(.*)")
 
 with open("england.txt") as f:
     dic = {}
+    flg = False
     for line in f.readlines():
-        l = compiled.search(line)
-        if l:
-            dic[l.group(1)] = l.group(2)
-    print dic
+        if start.match(line):
+            flg = True
+            continue
+        elif end.match(line):
+            flg = False
+
+        if flg:
+            l = pattern.match(line)
+            if l:
+                dic[l.group(1)] = l.group(2)
+
+    print str(dic).decode('string-escape')
