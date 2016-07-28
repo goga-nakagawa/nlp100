@@ -7,13 +7,14 @@ from nltk.stem import PorterStemmer
 pol = re.compile(r"^(\+1\s|\-1\s)(.*?)\n$")
 word = re.compile(r"[,.:;\s]")
 
-base_features = []
+base_features = set()
 
 def is_stop_words(word):
     return word.strip().lower() in get_stop_words("en")
 
 
 with open("sentiment.txt") as f:
+    stemmer = PorterStemmer()
     for l in f.readlines():
         sent = pol.match(l)
         if sent:
@@ -23,7 +24,7 @@ with open("sentiment.txt") as f:
             for w in words:
                 if not is_stop_words(w) and w:
                     try:
-                        base_features.append(PorterStemmer().stem(w))
+                        base_features.add(stemmer.stem(w))
                     except UnicodeDecodeError:
                         # case when w has not alphabetic character
                         continue
