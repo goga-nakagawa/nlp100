@@ -25,10 +25,17 @@ s = Sentiment()
 s.put_data(polarity="pos")
 s.put_data(polarity="neg")
 
+pos_cnt = 0
+neg_cnt = 0
 with open("sentiment.txt", "wb") as f:
     for l in s.shuffle():
         f.write(" ".join(l))
+        if l[0] == "+1":
+            pos_cnt += 1
+        elif l[0] == "-1":
+            neg_cnt += 1
 
+print pos_cnt, neg_cnt
 
 
 
