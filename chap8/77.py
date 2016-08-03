@@ -48,10 +48,13 @@ class LogisticRegression:
                                 continue
                     self.update(features, polarity, self.eta0 * (self.etan ** index))
 
-    def print_label(self):
+    def calc_score(self):
         stemmer = PorterStemmer()
         cnt = 0
-        corr_cnt = 0
+        correct_count = 0
+        actual_positive_count = 0
+        predict_positive_count = 0
+        correct_positive_count = 0
         with open("sentiment.txt") as f:
             p = re.compile(r"^(\+1\s|\-1\s)(.*?)\n$")
             s = re.compile(r"[,.:;\s]")
@@ -70,9 +73,20 @@ class LogisticRegression:
                                 continue
                     calc_polarity = 1.0 if sum([self.weights[f] for f in features]) > 0 else -1.0
                     if calc_polarity == polarity:
-                        corr_cnt += 1
-                    print "%s\t%s\t%s" % (polarity, calc_polarity, 1.0*corr_cnt / cnt)
+                        correct_count += 1
+                    if polarity == 1.0:
+                        actual_positive_count += 1
+                    if calc_polarity == 1.0:
+                        predict_positive_count += 1
+                    if calc_polarity == polarity and calc_polarity == 1.0:
+                        correct_positive_count += 1
+
+        precision_rate = 1.0*correct_positive_count / predict_positive_count
+        recall_rate = 1.0*correct_positive_count / actual_positive_count
+        f_value = (2 * precision_rate * recall_rate) / (precision_rate + recall_rate)
+        return precision_rate, recall_rate, f_value
+
 
 lr = LogisticRegression()
 lr.calc_weights()
-lr.print_label()
+print lr.calc_score()
