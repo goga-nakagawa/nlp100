@@ -48,11 +48,31 @@ class LogisticRegression:
                                 continue
                     self.update(features, polarity, self.eta0 * (self.etan ** index))
 
-    def calc_correct_rate(self):
-        
+    def correct_rate(self):
+        stemmer = PorterStemmer()
+        cnt = 0
+        corr_cnt = 0
+        with open("sentiment.txt") as f:
+            p = re.compile(r"^(\+1\s|\-1\s)(.*?)\n$")
+            s = re.compile(r"[,.:;\s]")
+            for index, l in enumerate(f.readlines()):
+                sentence = p.match(l)
+                features = []
+                if sentence:
+                    cnt += 1
+                    polarity = float(sentence.group(1).strip())
+                    words = s.split(sentence.group(2).strip())
+                    for w in words:
+                        if not self.is_stop_words(w) and w:
+                            try:
+                                features.append(stemmer.stem(w))
+                            except UnicodeDecodeError:
+                                continue
+                    calc_polarity = 1.0 if sum([self.weights[f] for f in features]) > 0 else -1.0
+                    if calc_polarity == polarity:
+                        corr_cnt += 1
+        return 1.0*corr_cnt / cnt
+
 lr = LogisticRegression()
 lr.calc_weights()
-weights = sorted(lr.weights.items(), key=lambda x: x[1])
-print weights[:10]
-print weights[-10:]
-
+print lr.correct_rate()
