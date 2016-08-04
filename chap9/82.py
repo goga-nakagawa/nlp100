@@ -12,7 +12,7 @@ with open("combined.txt", "rb") as infile:
                     if i != 0:
                         ls = [word]
                         try:
-                            ls.append(words[-i])
+                            ls.append(words[i])
                             outfile.write("\t".join(ls))
                         except IndexError:
                             continue
