@@ -44,9 +44,8 @@ class Word2Vec:
 
 w2v = Word2Vec()
 w2v.training("combined.txt", "trainied.bin")
-w2v.training_clusters("combined.txt", "trainied_clusters.txt")
 
 print "86: %s" % w2v.predict_word("United_States")
-print "87: %s" % w2v.predict_similarity("United_States", "U.S")
+# print "87: %s" % w2v.predict_similarity("United_States", "U.S")
 print "88: \n%s" % "\n".join([x[0] + ": " + str(x[1]) for x in w2v.predict_most_similar("England", 10)])
 print "89: \n%s" % "\n".join([x[0] + ": " + str(x[1]) for x in w2v.predict_analogies(10, pos=["Spain", "Athens"], neg=["Madrid"])])
